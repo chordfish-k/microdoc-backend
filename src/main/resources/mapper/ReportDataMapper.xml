@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.microdoc.mapper.ReportDataMapper">
+
+    <insert id="insertBatch">
+        insert into report_data (report_id, type, x, y) VALUES
+        <foreach collection="datas" item="d" separator=",">
+            (#{d.reportId}, #{d.type}, #{d.x}, #{d.y})
+        </foreach>
+    </insert>
+    <select id="find" resultType="com.microdoc.pojo.po.ReportData">
+        select * from report_data where report_id=#{reportId} and type=#{type}
+    </select>
+</mapper>
