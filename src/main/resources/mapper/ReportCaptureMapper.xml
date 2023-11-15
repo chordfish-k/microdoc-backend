@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.microdoc.mapper.ReportCaptureMapper">
+
+    <insert id="insertBatch">
+        insert into report_capture (report_id, img_b64, `before`, after, time) VALUES
+        <foreach collection="captures" item="d" separator=",">
+            (#{d.reportId}, #{d.imgB64}, #{d.before}, #{d.after}, #{d.time})
+        </foreach>
+    </insert>
+</mapper>

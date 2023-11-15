@@ -12,4 +12,7 @@ public class ReportUploadDTO {
 
     @ApiModelProperty("表数据")
     private List<ReportDataDTO> datas;
+
+    @ApiModelProperty("捕获数据")
+    private List<ReportCaptureDTO> captures;
 }

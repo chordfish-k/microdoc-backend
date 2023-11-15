@@ -16,6 +16,7 @@ import com.microdoc.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,6 +36,7 @@ public class ReportServiceImpl implements ReportService {
      * @return
      */
     @Override
+    @Transactional
     public void insert(ReportUploadDTO reportUploadDTO) {
         // 插入一条报告
         Long userId = UserContext.getCurrentId();
@@ -45,13 +47,27 @@ public class ReportServiceImpl implements ReportService {
         reportMapper.insert(report);
 
         // 插入多条报告数据
-        List<ReportData> dataList = reportUploadDTO.getDatas().stream().map(d -> {
-            ReportData reportData = new ReportData();
-            BeanUtils.copyProperties(d, reportData);
-            reportData.setReportId(report.getId());
-            return reportData;
-        }).collect(Collectors.toList());
-        reportDataMapper.insertBatch(dataList);
+        if (reportUploadDTO.getDatas() != null && reportUploadDTO.getDatas().size() > 0) {
+            List<ReportData> dataList = reportUploadDTO.getDatas().stream().map(d -> {
+                ReportData reportData = new ReportData();
+                BeanUtils.copyProperties(d, reportData);
+                reportData.setReportId(report.getId());
+                return reportData;
+            }).collect(Collectors.toList());
+            reportDataMapper.insertBatch(dataList);
+        }
+
+
+        // 插入多条捕获数据
+        if (reportUploadDTO.getCaptures() != null && reportUploadDTO.getCaptures().size() > 0) {
+            List<ReportCapture> captureList = reportUploadDTO.getCaptures().stream().map(c -> {
+                ReportCapture reportCapture = new ReportCapture();
+                BeanUtils.copyProperties(c, reportCapture);
+                reportCapture.setReportId(report.getId());
+                return reportCapture;
+            }).collect(Collectors.toList());
+            reportCaptureMapper.insertBatch(captureList);
+        }
     }
 
     /**

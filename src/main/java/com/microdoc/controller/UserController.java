@@ -102,4 +102,10 @@ public class UserController {
 
         return Result.success();
     }
+
+    @GetMapping("/test")
+    @ApiOperation("测试token用")
+    public Result test() {
+        return Result.success("success");
+    }
 }
