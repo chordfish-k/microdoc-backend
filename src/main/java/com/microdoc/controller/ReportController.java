@@ -2,9 +2,11 @@ package com.microdoc.controller;
 
 import com.microdoc.context.UserContext;
 import com.microdoc.pojo.dto.ReportDataQueryDTO;
+import com.microdoc.pojo.dto.ReportPageQueryDTO;
 import com.microdoc.pojo.dto.ReportUploadDTO;
 import com.microdoc.pojo.po.Report;
 import com.microdoc.pojo.po.ReportData;
+import com.microdoc.pojo.result.PageResult;
 import com.microdoc.pojo.result.Result;
 import com.microdoc.pojo.vo.ReportDataVO;
 import com.microdoc.pojo.vo.ReportVO;
@@ -42,6 +44,7 @@ public class ReportController {
 
     /**
      * 查询报告列表
+     * TODO 分页查询
      * @return
      */
     @GetMapping
@@ -67,6 +70,19 @@ public class ReportController {
     }
 
     /**
+     * 根据id删除报告
+     * @param ids
+     * @return
+     */
+    @DeleteMapping()
+    @ApiOperation("根据id删除报告")
+    public Result deleteByIds(@RequestParam List<Long> ids) {
+        log.info("根据id删除报告, {}}", ids);
+        reportService.deleteById(ids);
+        return Result.success();
+    }
+
+    /**
      * 根据报告id和数据类型查询数据
      * @param reportDataQueryDTO
      * @return
@@ -80,4 +96,20 @@ public class ReportController {
         ReportDataVO reportDataVO = reportService.find(reportData);
         return Result.success(reportDataVO);
     }
+
+    /**
+     * 报告分页查询
+     * @param reportPageQueryDTO
+     * @return
+     */
+    @GetMapping("/page")
+    @ApiOperation("报告分页查询")
+    public Result<PageResult> page(ReportPageQueryDTO reportPageQueryDTO) {
+        reportPageQueryDTO.setUserId(UserContext.getCurrentId());
+        log.info("报告分页查询：{}", reportPageQueryDTO);
+        PageResult pageResult = reportService.pageQuery(reportPageQueryDTO);
+        return Result.success(pageResult);
+    }
+
+
 }

@@ -6,4 +6,17 @@
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into report (user_id, upload_time) VALUES (#{userId}, #{uploadTime})
     </insert>
+
+    <select id="pageQuery" resultType="com.microdoc.pojo.po.Report">
+        select * from report
+        <where>
+            <if test="userId != null">and user_id = #{userId}</if>
+        </where>
+        order by upload_time desc
+    </select>
+
+    <delete id="deleteByIds">
+        delete from report where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">#{id}</foreach>
+    </delete>
 </mapper>

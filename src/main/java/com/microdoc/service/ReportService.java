@@ -1,8 +1,10 @@
 package com.microdoc.service;
 
+import com.microdoc.pojo.dto.ReportPageQueryDTO;
 import com.microdoc.pojo.dto.ReportUploadDTO;
 import com.microdoc.pojo.po.Report;
 import com.microdoc.pojo.po.ReportData;
+import com.microdoc.pojo.result.PageResult;
 import com.microdoc.pojo.vo.ReportDataVO;
 import com.microdoc.pojo.vo.ReportVO;
 
@@ -37,4 +39,17 @@ public interface ReportService {
      * @return
      */
     ReportDataVO find(ReportData reportData);
+
+    /**
+     * 分页查询
+     * @param reportPageQueryDTO
+     * @return
+     */
+    PageResult pageQuery(ReportPageQueryDTO reportPageQueryDTO);
+
+    /**
+     * 根据id删除报告
+     * @param ids
+     */
+    void deleteById(List<Long> ids);
 }

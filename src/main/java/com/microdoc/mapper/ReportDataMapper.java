@@ -30,4 +30,10 @@ public interface ReportDataMapper {
      * @return
      */
     ReportData find(ReportData reportData);
+
+    /**
+     * 根据id批量删除
+     * @param reportIds
+     */
+    void deleteByReportIds(List<Long> reportIds);
 }

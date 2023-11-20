@@ -1,15 +1,19 @@
 package com.microdoc.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.microdoc.constants.MessageConstant;
 import com.microdoc.context.UserContext;
 import com.microdoc.exception.NoSuchReportException;
 import com.microdoc.mapper.ReportCaptureMapper;
 import com.microdoc.mapper.ReportDataMapper;
 import com.microdoc.mapper.ReportMapper;
+import com.microdoc.pojo.dto.ReportPageQueryDTO;
 import com.microdoc.pojo.dto.ReportUploadDTO;
 import com.microdoc.pojo.po.Report;
 import com.microdoc.pojo.po.ReportCapture;
 import com.microdoc.pojo.po.ReportData;
+import com.microdoc.pojo.result.PageResult;
 import com.microdoc.pojo.vo.ReportDataVO;
 import com.microdoc.pojo.vo.ReportVO;
 import com.microdoc.service.ReportService;
@@ -116,5 +120,28 @@ public class ReportServiceImpl implements ReportService {
         ReportDataVO reportDataVO = new ReportDataVO();
         BeanUtils.copyProperties(reportData, reportDataVO);
         return reportDataVO;
+    }
+
+    /**
+     * 分页查询
+     * @param reportPageQueryDTO
+     * @return
+     */
+    @Override
+    public PageResult pageQuery(ReportPageQueryDTO reportPageQueryDTO) {
+        PageHelper.startPage(reportPageQueryDTO.getPage(), reportPageQueryDTO.getPageSize());
+        Page<Report> page = reportMapper.pageQuery(reportPageQueryDTO);
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    /**
+     * 根据id删除报告
+     * @param ids
+     */
+    @Override
+    public void deleteById(List<Long> ids) {
+        reportMapper.deleteByIds(ids);
+        reportDataMapper.deleteByReportIds(ids);
+        reportCaptureMapper.deleteByReportIds(ids);
     }
 }

@@ -9,6 +9,10 @@
             (#{d.reportId}, #{d.type}, #{d.x}, #{d.y})
         </foreach>
     </insert>
+    <delete id="deleteByReportIds">
+        delete from report_data where report_id in
+        <foreach collection="reportIds" open="(" close=")" separator="," item="id">#{id}</foreach>
+    </delete>
     <select id="find" resultType="com.microdoc.pojo.po.ReportData">
         select * from report_data where report_id=#{reportId} and type=#{type}
     </select>

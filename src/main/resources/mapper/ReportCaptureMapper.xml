@@ -9,4 +9,8 @@
             (#{d.reportId}, #{d.imgB64}, #{d.before}, #{d.after}, #{d.time})
         </foreach>
     </insert>
+    <delete id="deleteByReportIds">
+        delete from report_capture where report_id in
+        <foreach collection="reportIds" open="(" close=")" separator="," item="id">#{id}</foreach>
+    </delete>
 </mapper>
