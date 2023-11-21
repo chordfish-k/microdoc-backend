@@ -38,8 +38,11 @@ public class ReportController {
     @ApiOperation("上传报告")
     public Result insert(@RequestBody ReportUploadDTO reportUploadDTO) {
         log.info("上传报告：{}", reportUploadDTO);
-        reportService.insert(reportUploadDTO);
-        return Result.success();
+        boolean flag = reportService.insert(reportUploadDTO);
+        if (flag)
+            return Result.success();
+        else
+            return Result.error("空数据");
     }
 
     /**

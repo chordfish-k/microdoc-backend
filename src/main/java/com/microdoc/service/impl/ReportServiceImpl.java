@@ -41,7 +41,14 @@ public class ReportServiceImpl implements ReportService {
      */
     @Override
     @Transactional
-    public void insert(ReportUploadDTO reportUploadDTO) {
+    public boolean insert(ReportUploadDTO reportUploadDTO) {
+
+        // 如果report_data没有数据，则上传失败
+        if (reportUploadDTO.getDatas().size() == 0
+            || reportUploadDTO.getDatas().get(0).getX().equals("")) {
+            return false;
+        }
+
         // 插入一条报告
         Long userId = UserContext.getCurrentId();
         Report report = Report.builder()
@@ -72,6 +79,7 @@ public class ReportServiceImpl implements ReportService {
             }).collect(Collectors.toList());
             reportCaptureMapper.insertBatch(captureList);
         }
+        return true;
     }
 
     /**

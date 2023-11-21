@@ -17,7 +17,7 @@ public interface ReportService {
      * @param reportUploadDTO
      * @return
      */
-    void insert(ReportUploadDTO reportUploadDTO);
+    boolean insert(ReportUploadDTO reportUploadDTO);
 
     /**
      * 根据用户id查询报告列表
