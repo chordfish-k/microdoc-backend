@@ -12,6 +12,7 @@ spring:
       url: jdbc:mysql://${microdoc.datasource.host}:${microdoc.datasource.port}/${microdoc.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: ${microdoc.datasource.username}
       password: ${microdoc.datasource.password}
+
 mybatis:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
@@ -36,3 +37,4 @@ microdoc:
     ttl: 7200000
     # 设置前端传递过来的令牌名称
     token-name: token
+

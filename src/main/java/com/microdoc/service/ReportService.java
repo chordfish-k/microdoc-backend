@@ -15,9 +15,9 @@ public interface ReportService {
     /**
      * 上传报告
      * @param reportUploadDTO
-     * @return
+     * @return 报告id
      */
-    boolean insert(ReportUploadDTO reportUploadDTO);
+    long insert(ReportUploadDTO reportUploadDTO);
 
     /**
      * 根据用户id查询报告列表

@@ -38,9 +38,9 @@ public class ReportController {
     @ApiOperation("上传报告")
     public Result insert(@RequestBody ReportUploadDTO reportUploadDTO) {
         log.info("上传报告：{}", reportUploadDTO);
-        boolean flag = reportService.insert(reportUploadDTO);
-        if (flag)
-            return Result.success();
+        long id = reportService.insert(reportUploadDTO);
+        if (id >= 0)
+            return Result.success(id);
         else
             return Result.error("空数据");
     }

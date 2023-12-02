@@ -41,12 +41,12 @@ public class ReportServiceImpl implements ReportService {
      */
     @Override
     @Transactional
-    public boolean insert(ReportUploadDTO reportUploadDTO) {
+    public long insert(ReportUploadDTO reportUploadDTO) {
 
         // 如果report_data没有数据，则上传失败
         if (reportUploadDTO.getDatas().size() == 0
             || reportUploadDTO.getDatas().get(0).getX().equals("")) {
-            return false;
+            return -1;
         }
 
         // 插入一条报告
@@ -79,7 +79,7 @@ public class ReportServiceImpl implements ReportService {
             }).collect(Collectors.toList());
             reportCaptureMapper.insertBatch(captureList);
         }
-        return true;
+        return report.getId();
     }
 
     /**
